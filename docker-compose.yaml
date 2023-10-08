@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  #MongoDb services
+  mongo_db: 
+    container_name: db_container
+    image: mongo:7.0.2
+    restart: always
+    volumes: 
+      - mongo_db:/data/db
+  #Nest API services
+  api:
+    container_name: api_container
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      DB_URI: mongodb+srv://maurino208:juanmaurino1995@cluster0.ulkcnev.mongodb.net/?retryWrites=true&w=majority
+      JWT_EXPIRE: 3000s
+      JWT_SECRET: kenilitychallenge
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
